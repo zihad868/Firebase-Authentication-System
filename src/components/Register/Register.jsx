@@ -1,7 +1,8 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "../AuthProvider/AuthProvider";
 
 const Register = () => {
+  const [error, setError] = useState('');
   
   const {registerUser } = useContext(AuthContext)
 
@@ -16,7 +17,33 @@ const Register = () => {
 
     console.log(name,photo, email, password, confirmPassword)
 
+    if(password.length < 6){
+      setError('Password must be 6 Cheracture');
+      return;
+    }
+
+    if(password !== confirmPassword){
+      setError("Password does't Match")
+      return;
+    }
+
+    if(!/[0-9]{2}$/.test(password)){
+      setError('Password must be ends with 2 numbers')
+      return
+    }
+
+    setError('');
+
     registerUser(email, password)
+      .then(userCredetial => {
+        const user = userCredetial.user;
+        console.log(user);
+      })
+      .catch(error => {
+        console.error("Error---->",error)
+        setError(error.message)
+      })
+
   }
 
   return (
@@ -71,6 +98,10 @@ const Register = () => {
             placeholder="Type here"
             className="input input-bordered w-full"
           />
+        </div>
+        
+        <div>
+            {error && <span className="text-red-500 text-sm">{error}</span>}
         </div>
 
         <button type="submit" className="btn btn-primary">Register</button>
