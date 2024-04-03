@@ -1,6 +1,10 @@
+import { useContext } from "react";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../AuthProvider/AuthProvider";
 
 const Navbar = () => {
+  const {user, logOut } = useContext(AuthContext)
+  
   return (
     <div className="navbar bg-base-100">
       <div className="navbar-start">
@@ -35,6 +39,10 @@ const Navbar = () => {
             <li>
               <Link to='/login'>Register</Link>
             </li>
+
+            <li>
+              <Link to='/about'>About</Link>
+            </li>
           </ul>
         </div>
         <a className="btn btn-ghost text-xl">daisyUI</a>
@@ -51,10 +59,22 @@ const Navbar = () => {
             <li>
               <Link to='/register'>Register</Link>
             </li>
+
+            {user && <li>
+              <Link to='/about'>About</Link>
+            </li>}
         </ul>
       </div>
       <div className="navbar-end">
-        <a className="btn">Button</a>
+
+        <div>{user ? 
+        <>
+          <span>{user.email}</span>
+          <a onClick={() => logOut()} className="btn">Logout</a>
+        </> :
+        <a className="btn">Login</a>
+        }</div>
+        
       </div>
     </div>
   );

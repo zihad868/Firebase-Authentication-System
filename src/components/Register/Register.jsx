@@ -4,7 +4,18 @@ import { AuthContext } from "../AuthProvider/AuthProvider";
 const Register = () => {
   const [error, setError] = useState('');
   
-  const {registerUser } = useContext(AuthContext)
+  const {registerUser, googleRegister } = useContext(AuthContext)
+
+  const handleGoogleRegister = () => {
+    googleRegister()
+     .then(userCredential => {
+       console.log("Google Signin Success", userCredential.user)
+     })
+
+     .catch(error => {
+       console.error("Fail to Signin Google", error)
+     })
+  }
 
   const handleRegister = (e) => {
     e.preventDefault();
@@ -104,8 +115,9 @@ const Register = () => {
             {error && <span className="text-red-500 text-sm">{error}</span>}
         </div>
 
-        <button type="submit" className="btn btn-primary">Register</button>
+        <button type="submit" className="btn btn-primary w-full">Register</button>
       </form>
+      <button onClick={handleGoogleRegister} type="submit" className="btn btn-secondary w-full mt-2">Signin with Google</button>
     </div>
   );
 };
