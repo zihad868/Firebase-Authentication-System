@@ -4,7 +4,7 @@ import { AuthContext } from "../AuthProvider/AuthProvider";
 
 const Navbar = () => {
   const {user, logOut } = useContext(AuthContext)
-  
+
   return (
     <div className="navbar bg-base-100">
       <div className="navbar-start">
@@ -60,9 +60,9 @@ const Navbar = () => {
               <Link to='/register'>Register</Link>
             </li>
 
-            {user && <li>
+            <li>
               <Link to='/about'>About</Link>
-            </li>}
+            </li>
         </ul>
       </div>
       <div className="navbar-end">

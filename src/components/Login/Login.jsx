@@ -1,9 +1,14 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { AuthContext } from "../AuthProvider/AuthProvider";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Login = () => {
-    const { loginUser } = useContext(AuthContext);
-   
+    const { loginUser, user } = useContext(AuthContext);
+    const navigate = useNavigate();
+
+    const location = useLocation();
+    console.log(location.state)
+
     const handleLogin = (e) => {
         e.preventDefault();
 
@@ -12,6 +17,12 @@ const Login = () => {
     
         loginUser(email, password)
     }
+
+    useEffect(() => {
+      if(user){
+        navigate(location.state)
+      }
+    },[user])
 
     return (
         <div className="w-[40%] mx-auto border p-3">
